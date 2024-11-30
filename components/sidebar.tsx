@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home, Image, Clock, Settings } from 'lucide-react'

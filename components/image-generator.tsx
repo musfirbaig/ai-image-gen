@@ -28,28 +28,38 @@ export function ImageGenerator() {
   const [generatedImages, setGeneratedImages] = useState(dummyGeneratedImages)
   const [isLoading, setIsLoading] = useState(false)
 
+  const [image, setImage] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      // In a real app, you'd call your API here
-      // const response = await fetch("/api/generate-image", ...
-
-      // For now, we'll just add a new dummy image
-      const newImage = {
-        prompt: prompt,
-        image: `https://picsum.photos/seed/${Math.random()}/512/512`
-      }
-      setGeneratedImages([newImage, ...generatedImages])
-      setPrompt("")
+      await handleImageGeneration();
     } catch (error) {
       console.error("Error generating image:", error)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleImageGeneration = async () =>{
+    const response = await fetch("/api/generate-image", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt }),
+    })
+
+    if(response.ok){
+      console.log(response);
+      setImage((await response.json()).image);
+
+      console.log("image base 64: ", (await response.json()).image )
+      }
+
+
   }
 
   return (
@@ -68,7 +78,7 @@ export function ImageGenerator() {
               onChange={(e) => setPrompt(e.target.value)}
               required
             />
-            <Button type="submit" disabled={isLoading} className="w-full">
+            <Button type="submit" disabled={isLoading} className="w-full" onClick={handleImageGeneration}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generating...
@@ -80,6 +90,18 @@ export function ImageGenerator() {
           </form>
         </CardContent>
       </Card>
+
+      <div>
+        <h2 className="text-xl font-bold">Generated Image</h2>
+
+        {image && (
+        <div>
+          <h2>Generated Image:</h2>
+          <img src={`data:image/png;base64,${image}`} alt="Generated" />
+        </div>
+      )}
+
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {generatedImages.map((item, index) => (
