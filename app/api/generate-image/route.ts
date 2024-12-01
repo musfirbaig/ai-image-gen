@@ -1,3 +1,5 @@
+// ts-ignore
+/* eslint-disable */
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
 import { JWT } from "google-auth-library";
@@ -42,7 +44,8 @@ export async function POST(req: Request) {
         if (!response.ok) {
             throw new Error('Failed to generate image');
         }
-
+        // tslint:disable-next-line: no-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = await response.json();
         const imageBase64 = data.predictions[0].predicted_image;
 
@@ -77,7 +80,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             success: true,
             image: imageBase64,
-            // url: publicUrl,
+            url: publicUrl,
             // filename
         });
 

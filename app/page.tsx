@@ -2,7 +2,7 @@ import { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowRight, Sparkles, Clock } from 'lucide-react'
+import { ArrowRight, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "AI Image Generator",

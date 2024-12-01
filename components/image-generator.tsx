@@ -8,24 +8,24 @@ import Image from "next/image"
 import { Loader2, Download, RefreshCw } from 'lucide-react'
 
 // Dummy data for generated images
-const dummyGeneratedImages = [
-  {
-    prompt: "A futuristic cityscape with flying cars",
-    image: "https://picsum.photos/seed/city2/512/512"
-  },
-  {
-    prompt: "A magical forest with glowing plants",
-    image: "https://picsum.photos/seed/forest2/512/512"
-  },
-  {
-    prompt: "An alien landscape with multiple moons",
-    image: "https://picsum.photos/seed/alien1/512/512"
-  }
-]
+// const dummyGeneratedImages = [
+//   {
+//     prompt: "A futuristic cityscape with flying cars",
+//     image: "https://picsum.photos/seed/city2/512/512"
+//   },
+//   {
+//     prompt: "A magical forest with glowing plants",
+//     image: "https://picsum.photos/seed/forest2/512/512"
+//   },
+//   {
+//     prompt: "An alien landscape with multiple moons",
+//     image: "https://picsum.photos/seed/alien1/512/512"
+//   }
+// ]
 
 export function ImageGenerator() {
   const [prompt, setPrompt] = useState("")
-  const [generatedImages, setGeneratedImages] = useState(dummyGeneratedImages)
+  // const [generatedImages, setGeneratedImages] = useState(dummyGeneratedImages)
   const [isLoading, setIsLoading] = useState(false)
   const [firstTime, setFirstTime] = useState(true);
   const [imageTitle, setImageTitle] = useState<string>(''); 
