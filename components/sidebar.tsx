@@ -7,7 +7,7 @@ const navItems = [
   { name: "Home", href: "/", icon: Home },
   { name: "Generate", href: "/generate", icon: Image },
   { name: "History", href: "/history", icon: Clock },
-  { name: "Settings", href: "/settings", icon: Settings },
+  // { name: "Settings", href: "/settings", icon: Settings },
 ]
 
 export function Sidebar() {

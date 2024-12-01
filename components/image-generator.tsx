@@ -27,11 +27,15 @@ export function ImageGenerator() {
   const [prompt, setPrompt] = useState("")
   const [generatedImages, setGeneratedImages] = useState(dummyGeneratedImages)
   const [isLoading, setIsLoading] = useState(false)
+  const [firstTime, setFirstTime] = useState(true);
+  const [imageTitle, setImageTitle] = useState<string>(''); 
 
   const [image, setImage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setImageTitle(prompt);
+    setFirstTime(false);
     setIsLoading(true)
     try {
       // Simulate API call
@@ -53,17 +57,17 @@ export function ImageGenerator() {
     })
 
     if(response.ok){
-      console.log(response);
+      // console.log(response);
       setImage((await response.json()).image);
 
-      console.log("image base 64: ", (await response.json()).image )
+      // console.log("image base 64: ", (await response.json()).image )
       }
 
 
   }
 
   return (
-    <div className="space-y-8">
+    <div className="">
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Create Your Image</CardTitle>
@@ -91,43 +95,111 @@ export function ImageGenerator() {
         </CardContent>
       </Card>
 
-      <div>
+
+       {/* <img src={`data:image/png;base64,${image}`} alt="Generated" /> */}
+
+      {/* <div>
         <h2 className="text-xl font-bold">Generated Image</h2>
 
         {image && (
         <div>
           <h2>Generated Image:</h2>
-          <img src={`data:image/png;base64,${image}`} alt="Generated" />
+         
+
+          <Image 
+              src={`data:image/png;base64,${image}`}
+              alt="Generated" 
+              width={512}  // Set appropriate width
+              height={512} // Set appropriate height
+            />
         </div>
       )}
 
-      </div>
+      </div> */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {generatedImages.map((item, index) => (
-          <Card key={index} className="overflow-hidden">
-            <CardHeader className="p-4">
-              <CardTitle className="text-lg truncate" title={item.prompt}>
-                {item.prompt}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-0">
-              <Image src={item.image} alt={item.prompt} width={512} height={512} className="w-full h-48 object-cover" />
-            </CardContent>
-            <CardFooter className="p-4 flex justify-between">
-              <Button variant="outline" size="sm" onClick={() => window.open(item.image, "_blank")}>
-                <Download className="mr-2 h-4 w-4" /> Download
-              </Button>
-              <Button variant="outline" size="sm" onClick={() => {
-                const newImage = `https://picsum.photos/seed/${Math.random()}/512/512`
-                setGeneratedImages(generatedImages.map((img, i) => i === index ? {...img, image: newImage} : img))
-              }}>
-                <RefreshCw className="mr-2 h-4 w-4" /> Regenerate
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+
+      <div className="container mx-auto my-[-50px] px-4 flex justify-center items-center min-h-screen">
+    <Card className="overflow-hidden w-[512px]">
+      <CardHeader className="p-4">
+        <CardTitle className="text-lg truncate" title={imageTitle || 'No image generated'}>
+          {imageTitle || 'No image generated'}
+        </CardTitle>
+      </CardHeader>
+    <CardContent className="p-0 relative aspect-square">
+      {firstTime ? (
+        <div className="absolute inset-0 bg-muted flex items-center justify-center">
+          <p className="text-muted-foreground text-sm">Generated image will appear here</p>
+        </div>
+      ) : isLoading ? (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      ) : (
+        <Image 
+          src={`data:image/png;base64,${image}`} 
+          alt={imageTitle} 
+          width={512} 
+          height={512} 
+          className="object-cover"
+        />
+      )}
+    </CardContent>
+    <CardFooter className="p-4 flex justify-between">
+      <Button 
+        variant="outline" 
+        size="sm" 
+        onClick={() => {
+          // Download functionality
+          const link = document.createElement('a');
+          link.href = `data:image/png;base64,${image}`;
+          link.download = `${prompt}.png`;
+          link.click();
+        }}
+      >
+        <Download className="mr-2 h-4 w-4" /> Download
+      </Button>
+      <Button 
+        variant="outline" 
+        size="sm" 
+
+        onClick={async () => {
+          setPrompt(imageTitle); // Set input to current title
+          // setImageTitle(prompt);
+
+          setIsLoading(true)
+          try {
+            await new Promise(resolve => setTimeout(resolve, 0)); // Allow state to update
+            // Simulate API call
+            await handleImageGeneration();
+          } catch (error) {
+            console.error("Error generating image:", error)
+          } finally {
+            setIsLoading(false)
+          }
+        }}
+
+        // onClick={async () => {
+        //   try {
+        //     setIsLoading(true);
+        //     const response = await fetch('/api/generate-image', {
+        //       method: 'POST',
+        //       headers: { 'Content-Type': 'application/json' },
+        //       body: JSON.stringify({ prompt })
+        //     });
+        //     const data = await response.json();
+        //     setImage(data.image);
+        //   } catch (error) {
+        //     console.error('Error regenerating image:', error);
+        //   } finally {
+        //     setIsLoading(false);
+        //   }
+        // }}
+      >
+        <RefreshCw className="mr-2 h-4 w-4" /> Regenerate
+      </Button>
+    </CardFooter>
+  </Card>
+</div>
     </div>
   )
 }
