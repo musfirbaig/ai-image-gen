@@ -47,9 +47,9 @@ export default function Home() {
         </CardHeader>
         <CardContent>
           <ol className="list-decimal list-inside space-y-2">
-            <li>Navigate to the "Generate" page</li>
+            <li>Navigate to the &quot;Generate&quot; page</li>
             <li>Enter a detailed description of the image you want to create</li>
-            <li>Click "Generate Image" and wait for the AI to work its magic</li>
+            <li>Click &quot;Generate Image&quot; and wait for the AI to work its magic</li>
             <li>Download your creation or save it to your history</li>
           </ol>
         </CardContent>

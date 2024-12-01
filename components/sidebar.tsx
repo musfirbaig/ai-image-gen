@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Image, Clock, Settings } from 'lucide-react'
+import { Home, Image, Clock} from 'lucide-react'
 
 const navItems = [
   { name: "Home", href: "/", icon: Home },
