@@ -118,7 +118,7 @@ export function ImageGenerator() {
       </div> */}
 
 
-      <div className="container mx-auto my-[-50px] px-4 flex justify-center items-center min-h-screen">
+      <div className="container mx-auto my-[20px] px-4 flex justify-center items-center min-h-screen">
     <Card className="overflow-hidden w-[512px]">
       <CardHeader className="p-4">
         <CardTitle className="text-lg truncate" title={imageTitle || 'No image generated'}>

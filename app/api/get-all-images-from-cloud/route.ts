@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { Storage } from '@google-cloud/storage';
+import path from "path";
 
 export async function GET() {
     try {
         // Initialize Storage client
-        const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-443412-8ac1634f9770.json';
+        // const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-444603-28e9e1a47d7f.json';
+        const keyFilePath = path.join(process.cwd(), 'public/assignment-2-444603-28e9e1a47d7f.json');
         const storage = new Storage({ keyFilename: keyFilePath });
-        const bucketName = 'ai-generated-images-cloud';
+        const bucketName = 'ai-image-gen-bucket';
 
         // Get bucket reference
         const bucket = storage.bucket(bucketName);

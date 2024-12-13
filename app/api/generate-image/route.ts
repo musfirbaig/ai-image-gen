@@ -5,6 +5,7 @@ import fetch from "node-fetch";
 import { JWT } from "google-auth-library";
 import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
+import path from "path";
 
 export async function POST(req: Request) {
     try {
@@ -14,9 +15,11 @@ export async function POST(req: Request) {
         }
 
         // AI Platform Configuration
-        const PROJECT_ID = process.env.PROJECT_ID || '275846454628';
-        const ENDPOINT_ID = process.env.ENDPOINT_ID || '2604638592596705280';
-        const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-443412-8ac1634f9770.json';
+        const PROJECT_ID = process.env.PROJECT_ID || '742188722628';
+        const ENDPOINT_ID = process.env.ENDPOINT_ID || '732900366215020544';
+        // const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-444603-28e9e1a47d7f.json';
+
+        const keyFilePath = path.join(process.cwd(), 'public/assignment-2-444603-28e9e1a47d7f.json');
 
         // Auth setup
         const auth = new JWT({
@@ -56,7 +59,7 @@ export async function POST(req: Request) {
         // Save to Cloud Storage
 
         const storage = new Storage({ keyFilename: keyFilePath });
-        const bucket = storage.bucket('ai-generated-images-cloud');
+        const bucket = storage.bucket('ai-image-gen-bucket');
         const uuid = uuidv4();
         const sanitizedPrompt = prompt.replace(/[^a-zA-Z0-9]/g, '-');
         const filename = `${sanitizedPrompt}-${uuid}.png`;
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
 
         // Get public URL
 
-        const publicUrl = `https://storage.googleapis.com/ai-generated-images-cloud/${filename}`;
+        const publicUrl = `https://storage.googleapis.com/ai-image-gen-bucket/${filename}`;
 
         return NextResponse.json({
             success: true,
