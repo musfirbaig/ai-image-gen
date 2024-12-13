@@ -1,4 +1,4 @@
-// ts-ignore
+
 /* eslint-disable */
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
