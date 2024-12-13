@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         // AI Platform Configuration
         const PROJECT_ID = process.env.PROJECT_ID || '742188722628';
         const ENDPOINT_ID = process.env.ENDPOINT_ID || '732900366215020544';
-        const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-444603-a1bec72db44e.json';
+        // const keyFilePath = process.env.GOOGLE_CLOUD_KEY_PATH || './assignment-2-444603-a1bec72db44e.json';
 
         // const keyFilePath = path.join(process.cwd(), 'public/assignment-2-444603-28e9e1a47d7f.json');
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
             
 
         // Auth setup
-        
+
         // const auth = new JWT({
         //     keyFile: keyFilePath,
         //     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
